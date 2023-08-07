@@ -1,26 +1,29 @@
+
 Introduction
 ============
+This repo can be used to build a 2.6.31.x Linux kernel for the MIPS Malta board usable with QEMU.
+It's forked from the firmadyne repo but it _does not_ include the `firmadyne` module, though many of
+the other customizations are still included (ssh, other services). No filesystem image is provided.
 
-This contains the modified MIPS kernel for the FIRMADYNE framework, which
-includes an in-tree `firmadyne` module to perform instrumentation and
-emulation.
+Changing Kernel Versions
+============
 
-This module can be configured using the following parameters:
+The kernel version to be build can be updated by modifying the `Makefile` at the root of the repo at
+changing these lines at the top of the file:
 
-| Parameter | Default   | Values | Description |
-| --------- | --------- | ------ | ----------- |
-| devfs     | 1 (on)    | 0, 1   | Create stubs in devfs and emulate behavior |
-| execute   | 1 (on)    | 0 - 5  | Counter to execute `/firmadyne/console` after 4th `execve()` syscall (requires syscall hooks), 0 to disable |
-| reboot    | 1 (on)    | 0, 1   | Attempt to emulate system reboot by re-executing `/sbin/init` |
-| procfs    | 1 (on)    | 0, 1   | Create stubs in procfs and emulate behavior |
-| syscall   | 255 (all) | 0 - 16 | Output log bitmask for hooking system calls using the `kprobe` framework, 0 to disable |
+```
+# version - 2.6.31.6
+VERSION = 2
+PATCHLEVEL = 6
+SUBLEVEL = 31
+EXTRAVERSION = .6
+```
 
 Usage
 =====
 
-Since MIPS systems can be either big-endian or little-endian, this kernel
-should be compiled for both endianness. The below instructions produce a little-
-endian (mipsel) kernel, but should be repeated for a big-endian (mipseb) kernel.
+Since MIPS systems can be either big-endian or little-endian, the kernel
+can be compiled for both endianness.
 
 Little-Endian (MIPSEL)
 ----------------------
@@ -36,6 +39,10 @@ Copy the configuration file into the build directory:
 Assuming that the appropriate cross-compiler is installed in `/opt/cross/mipsel-linux-musl`, execute:
 
 `make ARCH=mips CROSS_COMPILE=/opt/cross/mipsel-linux-musl/bin/mipsel-linux-musl- O=./build/mipsel -j8`
+
+Alternative command for Ubuntu/Debian systems with the `gcc-mipsel-linux-gnu` metapackage installed:
+
+`make ARCH=mips CROSS_COMPILE=mipsel-linux-gnu- O=./build/mipsel -j8`
 
 The output kernel image will be generated at the following location:
 
@@ -55,6 +62,10 @@ Copy the configuration file into the build directory:
 Assuming that the appropriate cross-compiler is installed in `/opt/cross/mipseb-linux-musl`, execute:
 
 `make ARCH=mips CROSS_COMPILE=/opt/cross/mipseb-linux-musl/bin/mipseb-linux-musl- O=./build/mipseb -j8`
+
+Alternative command for Ubuntu/Debian systems with the `gcc-mips-linux-gnu` metapackage installed:
+
+`make ARCH=mips CROSS_COMPILE=mips-linux-gnu- O=./build/mipseb -j8`
 
 The output kernel image will be generated at the following location:
 
@@ -80,4 +91,3 @@ although these do not appear to be prevalent. Nevertheless, at the time, we
 performed our published experiments over our dataset using this kernel for
 MIPS systems.
 
-Pull requests are greatly appreciated!
