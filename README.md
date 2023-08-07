@@ -22,10 +22,24 @@ EXTRAVERSION = .6
 Usage
 =====
 
+Docker Build
+------------
+
+The build can be run using the included Docker container:
+```
+sudo docker build -t ubuntu-1604-builder -f ubuntu_16.04-gcc-mips-linux-gnu.Dockerfile
+sudo docker run -it --rm -v $PWD:/home/builder/images ubuntu-1604-builder
+
+cd images/
+mkdir -p build/mipseb
+cp config.mipseb build/mipseb/.config
+make ARCH=mips CROSS_COMPILE=mips-linux-gnu- O=./build/mipseb -j8
+```
+
 Since MIPS systems can be either big-endian or little-endian, the kernel
 can be compiled for both endianness.
 
-Little-Endian (MIPSEL)
+Little-Endian (MIPSEL) Build
 ----------------------
 
 Create the kernel build output directory:
@@ -48,7 +62,8 @@ The output kernel image will be generated at the following location:
 
 `build/mipsel/vmlinux`
 
-Big-Endian (MIPSEB)
+
+Big-Endian (MIPSEB) Build
 -------------------
 
 Create the kernel build output directory:
