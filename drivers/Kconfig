@@ -120,5 +120,5 @@ source "drivers/clk/Kconfig"
 
 source "drivers/hwspinlock/Kconfig"
 
-source "drivers/firmadyne/Kconfig"
+# source "drivers/firmadyne/Kconfig"
 endmenu

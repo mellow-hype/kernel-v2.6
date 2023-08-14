@@ -5,7 +5,7 @@
 # Rewritten to use lists instead of if-statements.
 #
 
-obj-$(CONFIG_FIRMADYNE)		+= firmadyne/
+# obj-$(CONFIG_FIRMADYNE)		+= firmadyne/
 
 obj-y				+= gpio/
 obj-$(CONFIG_PCI)		+= pci/
